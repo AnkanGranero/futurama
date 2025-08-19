@@ -1,0 +1,9 @@
+.imageDetail {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  max-width: 100%;
+  max-height: 90vh;
+  border-radius: 0.75rem;
+  object-fit: contain;
+}

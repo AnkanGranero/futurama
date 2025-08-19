@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import styles from './page.module.css';
 import Link from 'next/link';
+import { Character } from '../types';
 
 export default async function Characters() {
   const endPoint = 'https://futuramaapi.com/graphql';
@@ -20,14 +21,6 @@ export default async function Characters() {
     }
   `;
 
-  type Character = {
-    id: string | number;
-    name: string;
-    status?: string;
-    gender?: string;
-    image?: string;
-  };
-
   const res = await fetch(endPoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -37,7 +30,6 @@ export default async function Characters() {
   const result = await res.json();
 
   const characters = result?.data?.characters?.edges;
-  console.log(characters);
 
   if (!characters) return <p>no characters found</p>;
 
@@ -45,15 +37,15 @@ export default async function Characters() {
     <div>
       <h1>Characters</h1>
       <ul className={styles.characterUl}>
-        {characters.map((char) => (
+        {characters.map((char:Character) => (
           <li key={char.id} className={styles.char}>
           <Link href={`/characters/${char.id}`}>
          
             <Image
               src={char.image}
               alt={char.name}
-              width="300"
-              height="300"
+              width="400"
+              height="600"
               className={styles.charImg}
             ></Image>
              </Link>

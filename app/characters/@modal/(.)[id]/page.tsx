@@ -1,9 +1,10 @@
-import Image from 'next/image';
+import Modal from '@/app/components/modal';
 import ImageDetail from '@/app/components/imageDetail';
+import { notFound } from 'next/navigation';
 
-export default async function fullScreen({ params }: { params: Promise<{ id: number }> }) {
-
+export default async function GalleryImageModal({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  
   const endPoint = 'https://futuramaapi.com/graphql';
   const query = `
     query ($id: Int!){
@@ -14,7 +15,6 @@ export default async function fullScreen({ params }: { params: Promise<{ id: num
       }
     }
   `;
-
   const res = await fetch(endPoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -22,11 +22,13 @@ export default async function fullScreen({ params }: { params: Promise<{ id: num
   });
 
   const result = await res.json();
-  const { character } = await result?.data
-
+  const { character } = await result?.data;
+  if (!character) {
+    return notFound();
+  }  
   return (
-    <div>
+    <Modal>
       <ImageDetail character={character}></ImageDetail>
-    </div>
+    </Modal>
   );
 }
