@@ -19,3 +19,9 @@
 .charName {
     text-align: center;
 }
+
+.nav {
+  width: 8rem;
+  display:flex;
+  justify-content: space-between;
+}

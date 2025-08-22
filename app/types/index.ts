@@ -5,3 +5,4 @@ export type Character = {
   gender?: string;
   image: string;
 };
+

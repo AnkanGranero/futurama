@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 export default async function fullScreen({ params }: { params: Promise<{ id: number }> }) {
   const { id } = await params;
 
-  const res = await getCharacter(id);
+  const res = await getCharacter(Number(id));
   if (res.status === 404) {
     notFound();
   }
@@ -13,6 +13,7 @@ export default async function fullScreen({ params }: { params: Promise<{ id: num
     throw new Error(`fetch failed ${res.status}`);
   }
   const json = await res.json();
+  
   const { character } = json?.data;
   if (!character) notFound();
   return (
